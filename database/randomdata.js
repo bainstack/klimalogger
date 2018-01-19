@@ -10,7 +10,6 @@ exports.createRandomdata = function () {
     let randomYear = checkrandomsforzero((Math.floor(Math.random() * (Math.floor(2018) - Math.ceil(1950))) + Math.ceil(1950)));
     let randomreg_datetime = randomYear + '-' + randomMonth + '-' + randomDay + ' ' + randomHour + ':' + randomMinute + ':' + randomSecond;
     let data = [randomTemperature, randomHumidity, randomreg_datetime];
-    console.log(data);
     return data;
 };
 

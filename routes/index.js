@@ -10,8 +10,10 @@ router.get('/', function (req, res, next) {
   let columns = "temperature, humidity, timestamp";
   let orderby = "timestamp";
   //console.log(db.insertRandomDb(db_path, 100, table,columns));
+  //console.log(db.queryDb(db_path, table, orderby));
   let data = db.queryDb(db_path, table, orderby);
-  res.render('index', { title: 'Express', data: data });
+  //console.log(data);
+  res.render('index', { title: table, data: data });
 });
 
 module.exports = router;

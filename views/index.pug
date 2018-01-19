@@ -1,8 +1,11 @@
 extends layout
 
 block content
+  h1!= title
+  table
+    - for (var r in data)
+        tr
+          td= data[r].ID
+          td= data[r].timestamp
   canvas#tempAndHumidity(width='400', height='400')
   script(src='/database/connection.js')
-  script
-    
-

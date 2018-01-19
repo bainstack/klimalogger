@@ -8,15 +8,22 @@ exports.queryDb = function (db_path, table, orderby) {
     });
 
     let sql = "SELECT * FROM " + table + " ORDER BY " + orderby;
-
-    db.all(sql, [], (err, rows) => {
+    console.log(sql);
+    
+    let data = db.serialize(sql, (err, rows) => {
         if (err) {
             throw err;
         }
+
+        //console.log(rows);
+        //return rows;
+
         /*rows.forEach((row) => {
             console.log(row.timestamp + "\t" + row.temperature + "\t" + row.humidity + "\t" + row.ID);
         });*/
     });
+
+    console.log(data);
 
     db.close();
 };
