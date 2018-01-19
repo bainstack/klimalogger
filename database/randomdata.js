@@ -21,20 +21,3 @@ function checkrandomsforzero(random) {
     }
     return random;
 }
-
-//function to insert random data
-module.exports.insertRandomData = function (db, amount, table, columns) {
-    for (j = 0; j < 100; j++) {
-        let randomData = createRandomdata();
-        let placeholders = "(" + randomData.map((randomData) => '?').join(',') + ")";
-        let sql = "INSERT INTO " + table + "(" + columns + ")" + " VALUES " + placeholders;
-        console.log(sql);
-        console.log(randomData);
-        db.run(sql, randomData, function (err) {
-            if (err) {
-                return console.error(err.message);
-            }
-            //console.log(`Rows inserted ${this.changes}`);
-        });
-    };
-};
