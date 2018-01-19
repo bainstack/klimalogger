@@ -8,6 +8,7 @@ let db = new sqlite3.Database('./../db_klimalogger/db_klimalogger.db', sqlite3.O
     else console.log('Connected to the database: klimalogger!');
 });
 
+//perform initial query and if wanted insert random data
 db.serialize(() => {
 
     //insertRandomData(100, "temperature_humidity", "temperature, humidity, date_time");
@@ -25,6 +26,7 @@ db.serialize(() => {
     });
 });
 
+//close db connection
 db.close((err) => {
     if (err) {
         console.error(err.message);
@@ -32,6 +34,7 @@ db.close((err) => {
     console.log('Closed the database connection.');
 });
 
+//function to create random data
 function createRandomdata() {
     let randomTemperature = (Math.random() * 61 - 20);
     let randomHumidity = (Math.random() * 101);
@@ -47,6 +50,7 @@ function createRandomdata() {
     return data;
 };
 
+//function to add 0 character if random numbers are below 10 for saving to database
 function checkrandomsforzero(random) {
     if (random < 10) {
         random = '0' + random;
@@ -54,6 +58,7 @@ function checkrandomsforzero(random) {
     return random;
 }
 
+//function to insert random data
 function insertRandomData(amount, table, columns) {
     for (j = 0; j < 100; j++) {
         let randomData = createRandomdata();
