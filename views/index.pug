@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  canvas#tempAndHumidity(width='400', height='400')
+  script(src='/database/connection.js')
+  script
+    
+
