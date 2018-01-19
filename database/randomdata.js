@@ -1,5 +1,5 @@
 //function to create random data
-function createRandomdata() {
+exports.createRandomdata = function () {
     let randomTemperature = (Math.random() * 61 - 20);
     let randomHumidity = (Math.random() * 101);
     let randomHour = checkrandomsforzero(Math.floor(Math.random() * (Math.floor(24) - Math.ceil(0))) + Math.ceil(0));

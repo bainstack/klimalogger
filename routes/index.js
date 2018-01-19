@@ -7,8 +7,11 @@ router.get('/', function (req, res, next) {
   let sql = ("SELECT * FROM");
   let db_path = "./../db_klimalogger/db_klimalogger.db";
   let table = "temperature_humidity";
-  console.log(db.queryDb(db_path, table, sql));
-  res.render('index', { title: 'Express' });
+  let columns = "temperature, humidity, timestamp";
+  let orderby = "timestamp";
+  //console.log(db.insertRandomDb(db_path, 100, table,columns));
+  let data = db.queryDb(db_path, table, orderby);
+  res.render('index', { title: 'Express', data: data });
 });
 
 module.exports = router;

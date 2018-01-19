@@ -1,16 +1,24 @@
 const sqlite3 = require('sqlite3').verbose();
-let insertRandomData = require('./randomdata.js');
+let insertRandomData = require('./randomdata');
 let db;
 
-exports.queryDb = function (db_path, table, sql) {
+exports.queryDb = function (db_path, table, orderby) {
     db = new sqlite3.Database(db_path, function (err) {
         if (err) res.render('index', { title: 'Error: ' + err });
     });
 
-    let rows = db.all(sql + table, function (err) {
-        db.close();
+    let sql = "SELECT * FROM " + table + " ORDER BY " + orderby;
+
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        /*rows.forEach((row) => {
+            console.log(row.timestamp + "\t" + row.temperature + "\t" + row.humidity + "\t" + row.ID);
+        });*/
     });
-    return rows;
+
+    db.close();
 };
 
 exports.insertDb = function (db_path, table, sql) {
@@ -18,7 +26,7 @@ exports.insertDb = function (db_path, table, sql) {
         if (err) res.render('index', { title: 'Error: ' + err });
     });
 
-    db.run(sql, datatoinsert, function (err) {
+    db.run(sql, datatinsert, function (err) {
         if (err) {
             return console.error(err.message);
         }
@@ -33,15 +41,16 @@ exports.insertRandomDb = function (db_path, amount, table, columns) {
         if (err) res.render('index', { title: 'Error: ' + err });
     });
 
-    for (j = 0; j < 100; j++) {
+    for (i = 0; i < 100; i++) {
         let randomData = insertRandomData.createRandomdata();
         let placeholders = "(" + randomData.map((randomData) => '?').join(',') + ")";
         let sql = "INSERT INTO " + table + "(" + columns + ")" + " VALUES " + placeholders;
-        db.run(sql, datatoinsert, function (err) {
+        db.run(sql, randomData, function (err) {
             if (err) {
                 return console.error(err.message);
             };
         });
-        db.close();
     };
+
+    db.close();
 };
