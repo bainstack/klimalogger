@@ -2,30 +2,30 @@ const sqlite3 = require('sqlite3').verbose();
 let insertRandomData = require('./randomdata');
 let db;
 
-exports.queryDb = function (db_path, table, orderby) {
+exports.queryDb = (db_path, table, orderby) => {
+    let data = [];
     db = new sqlite3.Database(db_path, function (err) {
         if (err) res.render('index', { title: 'Error: ' + err });
     });
 
     let sql = "SELECT * FROM " + table + " ORDER BY " + orderby;
-    console.log(sql);
-    
-    let data = db.serialize(sql, (err, rows) => {
+
+    db.all(sql, (err, data) => {
         if (err) {
             throw err;
         }
-
-        //console.log(rows);
-        //return rows;
-
-        /*rows.forEach((row) => {
-            console.log(row.timestamp + "\t" + row.temperature + "\t" + row.humidity + "\t" + row.ID);
-        });*/
+        let i = 0;
+        rows.forEach((row) => {
+            //console.log(row);
+            data[i] = row;
+            i++;
+        });
+        //console.log(data[0]);
+        db.close();
+        return data;
     });
-
-    console.log(data);
-
-    db.close();
+    console.log(data[0]);
+    return data;
 };
 
 exports.insertDb = function (db_path, table, sql) {

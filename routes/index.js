@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
   //console.log(db.insertRandomDb(db_path, 100, table,columns));
   //console.log(db.queryDb(db_path, table, orderby));
   let data = db.queryDb(db_path, table, orderby);
-  //console.log(data);
+  console.log(data);
   res.render('index', { title: table, data: data });
 });
 
