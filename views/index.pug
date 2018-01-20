@@ -1,12 +1,39 @@
-extends layout
-
-block content
-  h1!= title
-  table
-    - for (var r in data)
-        tr
-          td= data[r].timestamp
-          td= data[r].temperature
-          td= data[r].humidity
-  canvas#tempAndHumidity(width='400', height='400')
-  script(src='/database/connection.js')
+html
+  head
+    script(type='text/javascript', src='https://www.gstatic.com/charts/loader.js')
+    script(type='text/javascript').
+      google.charts.load('current', {packages: ['corechart', 'line']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        let chartdata = new google.visualization.DataTable();
+        chartdata.addColumn('datetime', 'timestamp');
+        chartdata.addColumn('number', 'temperature');
+        chartdata.addColumn('number', 'humidity');
+        data = !{data};
+        data.forEach(function(item){
+          let ISOtimestamp = new Date(item.timestamp);
+          chartdata.addRow([ISOtimestamp, item.temperature, item.humidity]);
+        });
+        let date = new Date();
+        date.setDate(date.getDate() -10);
+        console.log(date);
+        let options = {
+          width: 1800,
+          height: 750,
+          hAxis: {
+            title: 'timestamp'
+          },
+          vAxis: {
+            title: 'Values',
+            viewWindow: {
+              max:100,
+              min:-30
+            },
+            ticks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+          }
+        };
+        let chart = new google.visualization.LineChart(document.getElementById('temperature_humidity'));
+        chart.draw(chartdata, options);
+      };
+  body
+    #temperature_humidity

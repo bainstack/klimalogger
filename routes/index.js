@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
   //console.log(db.queryDb(db_path, table, orderby));
   //db.queryDb(db_path, table, orderby);
   function db_query(data) {
-    res.render('index', { title: table, data: data });
+    res.render('index', { title: table, data: JSON.stringify(data) });
   }
   db.queryDb(db_path, table, orderby, db_query);
 });
