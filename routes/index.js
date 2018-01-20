@@ -11,9 +11,11 @@ router.get('/', function (req, res, next) {
   let orderby = "timestamp";
   //console.log(db.insertRandomDb(db_path, 100, table,columns));
   //console.log(db.queryDb(db_path, table, orderby));
-  let data = db.queryDb(db_path, table, orderby);
-  console.log(data);
-  res.render('index', { title: table, data: data });
+  //db.queryDb(db_path, table, orderby);
+  function db_query(data) {
+    res.render('index', { title: table, data: data });
+  }
+  db.queryDb(db_path, table, orderby, db_query);
 });
 
 module.exports = router;
