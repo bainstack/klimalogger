@@ -1,21 +1,11 @@
 let express = require('express');
+let indexController = require('../controllers/indexController');
 let router = express.Router();
-let db = require('./../database/database');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  let sql = ("SELECT * FROM");
-  let db_path = "./../db_klimalogger/db_klimalogger.db";
-  let table = "temperature_humidity";
-  let columns = "temperature, humidity, timestamp";
-  let orderby = "timestamp";
-  //console.log(db.insertRandomDb(db_path, 100, table,columns));
-  //console.log(db.queryDb(db_path, table, orderby));
-  //db.queryDb(db_path, table, orderby);
-  function db_query(data) {
-    res.render('index', { title: table, data: JSON.stringify(data) });
-  }
-  db.queryDb(db_path, table, orderby, db_query);
-});
+//GET home page
+router.get('/', indexController.index_get);
+
+//SET home page
+router.post('/sendData', indexController.index_set);
 
 module.exports = router;

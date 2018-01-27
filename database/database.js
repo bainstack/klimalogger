@@ -13,20 +13,25 @@ exports.queryDb = (db_path, table, orderby, callback) => {
         }
         else {
             callback(rows);
-        }
+        };
         db.close();
     });
 };
 
-exports.insertDb = function (db_path, table, sql) {
-    db = new sqlite3.Database(dbpath, function (err) {
-        if (err) res.render('index', { title: 'Error: ' + err });
+exports.insertDb = function (db_path, table, columns, datatinsert) {
+    db = new sqlite3.Database(db_path, function (err) {
+        console.log(err);
+        //if (err) res.render('index', { title: 'Error: ' + err });
     });
+
+    let placeholders = "(" + datatinsert.map((datatinsert) => '?').join(',') + ")";
+    let sql = "INSERT INTO " + table + "(" + columns + ")" + " VALUES " + placeholders;
 
     db.run(sql, datatinsert, function (err) {
         if (err) {
             return console.error(err.message);
         }
+        console.log(datatinsert);
         console.log(`Rows inserted ${this.changes}`);
     });
     db.close();
